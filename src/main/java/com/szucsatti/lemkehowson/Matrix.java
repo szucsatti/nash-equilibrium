@@ -1,5 +1,7 @@
 package com.szucsatti.lemkehowson;
 
+import lombok.extern.java.Log;
+@Log
 public class Matrix {
 
     private static final String START_LINE = "| ";
