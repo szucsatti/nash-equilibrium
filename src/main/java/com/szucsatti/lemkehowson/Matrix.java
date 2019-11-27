@@ -14,6 +14,14 @@ public class Matrix {
     private int rows;
     private int cols;
 
+    public static final Matrix IDENTITY_2X2 = new Matrix(new double[][]{
+            {1, 0},
+            {0, 1}});
+
+    public static final Matrix COLUMN_ONE = new Matrix(new double[][]{
+            {1},
+            {1}});
+
     public Matrix(final double[][] matrix) {
         this.matrix = matrix;
         this.rows = matrix.length;
@@ -33,8 +41,7 @@ public class Matrix {
 
     public Matrix join(final Matrix other){
         assert this.getRows() == other.getRows();
-        assert this.getCols() == other.getCols();
-        double[][] joined = new double[this.getRows()][this.getCols() * 2];
+        double[][] joined = new double[this.getRows()][this.getCols() + other.getCols()];
 
         for(int row = 0; row < other.getRows(); row++){
             double[] otherRow = other.matrix[row];
@@ -66,7 +73,7 @@ public class Matrix {
     }
 
     public Matrix normalize() {
-        double normalizationConstant = normalizationConstant();
+        double normalizationConstant = getNormalizationConstant();
         double[][] normalized = new double[this.getRows()][this.getCols()];
         if(normalizationConstant > 0D){
             for(int row = 0; row < rows; row++){
@@ -78,13 +85,13 @@ public class Matrix {
         return new Matrix(normalized);
     }
 
-    private double normalizationConstant(){
-        double minimum = minimumValue();
+    private double getNormalizationConstant(){
+        double minimum = getMinimumValue();
         return minimum >= 0D ? 0D : Math.abs(minimum) + 1;
     }
 
 
-    protected double minimumValue() {
+    protected double getMinimumValue() {
         double minimum = matrix[0][0];
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {

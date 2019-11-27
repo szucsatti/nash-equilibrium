@@ -29,8 +29,8 @@ class MatrixOperationsTest {
 
     @Test
     public void givenMatrix_OnMinimumValue_returnMinimumValue() {
-        Assertions.assertEquals(-8, xMatrix.minimumValue());
-        Assertions.assertEquals(-17, yMatrix.minimumValue());
+        Assertions.assertEquals(-8, xMatrix.getMinimumValue());
+        Assertions.assertEquals(-17, yMatrix.getMinimumValue());
     }
 
     @Test
