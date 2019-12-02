@@ -90,7 +90,6 @@ public class Matrix {
         return minimum >= 0D ? 0D : Math.abs(minimum) + 1;
     }
 
-
     protected double getMinimumValue() {
         double minimum = matrix[0][0];
         for (int row = 0; row < rows; row++) {
