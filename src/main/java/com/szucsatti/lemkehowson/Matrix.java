@@ -133,8 +133,8 @@ public class Matrix {
     }
 
     public Matrix multiplyRow(final int rowIndex, final double multiplyBy){
-        double[][] multipliedMatrix = new double[][]{};
-        multipliedMatrix = this.matrix;
+        double[][] multipliedMatrix = this.matrix;
+
         for(int col = 0; col < getCols(); col++){
             multipliedMatrix[rowIndex][col] *= multiplyBy;
         }
