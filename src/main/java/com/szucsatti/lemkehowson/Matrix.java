@@ -142,6 +142,15 @@ public class Matrix {
         return new Matrix(multipliedMatrix);
     }
 
+    public Matrix subtract(final int rowIndex, final int fromIndex){
+        double[][] subtractedMatrix = this.matrix;
+
+        for(int col = 0; col < this.getCols(); col++){
+            subtractedMatrix[fromIndex][col] -= subtractedMatrix[rowIndex][col];
+        }
+        return new Matrix(subtractedMatrix);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

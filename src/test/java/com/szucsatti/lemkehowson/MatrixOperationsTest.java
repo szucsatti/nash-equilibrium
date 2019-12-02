@@ -88,4 +88,14 @@ class MatrixOperationsTest {
                 {13, 14, 15}}), actualMatrix);
     }
 
+    @Test
+    public void givenMatrix_onSubtract_doSubtraction(){
+        final Matrix subtractMatrix = xMatrix.subtract(0, 1);
+
+        Assertions.assertEquals(new Matrix(new double[][]{
+                {1, 2, 3},
+                {6, -10, 6},
+                {13, 14, 15}}), subtractMatrix);
+    }
+
 }
