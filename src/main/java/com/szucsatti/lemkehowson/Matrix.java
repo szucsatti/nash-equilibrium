@@ -128,6 +128,20 @@ public class Matrix {
         return rows;
     }
 
+    public double ratio(int uRow, int uCol, int lRow, int lCol){
+        return matrix[uRow][uCol] / matrix[lRow][lCol];
+    }
+
+    public Matrix multiplyRow(final int rowIndex, final double multiplyBy){
+        double[][] multipliedMatrix = new double[][]{};
+        multipliedMatrix = this.matrix;
+        for(int col = 0; col < getCols(); col++){
+            multipliedMatrix[rowIndex][col] *= multiplyBy;
+        }
+
+        return new Matrix(multipliedMatrix);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

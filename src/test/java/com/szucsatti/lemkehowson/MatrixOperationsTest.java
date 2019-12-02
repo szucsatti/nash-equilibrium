@@ -62,5 +62,30 @@ class MatrixOperationsTest {
         Assertions.assertEquals(yMatrix, split[1]);
     }
 
+    @Test
+    public void givenMatrix_onRatio_calculateRatio(){
+        Assertions.assertEquals(xMatrix.ratio(1, 2, 0, 2), 3D);
+        Assertions.assertEquals(xMatrix.ratio(2, 1, 1, 1), -14/8D);
+        Assertions.assertEquals(xMatrix.ratio(2, 2, 1, 2), 15/9D);
+    }
+
+    @Test
+    public void givenMatrix_onMultiplyRowByPositiveNumber_multipliesRow(){
+        Matrix actualMatrix = xMatrix.multiplyRow(0, 5);
+
+        Assertions.assertEquals(new Matrix(new double[][]{
+                {5, 10, 15},
+                {7, -8, 9},
+                {13, 14, 15}}), actualMatrix);
+    }
+    @Test
+    public void givenMatrix_onMultiplyRowByNegativeNumber_multipliesRow(){
+        Matrix actualMatrix = xMatrix.multiplyRow(1, -0.5);
+
+        Assertions.assertEquals(new Matrix(new double[][]{
+                {1, 2, 3},
+                {-3.5, 4, -4.5},
+                {13, 14, 15}}), actualMatrix);
+    }
 
 }
