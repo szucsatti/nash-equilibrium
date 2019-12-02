@@ -1,20 +1,29 @@
 package com.szucsatti.lemkehowson;
 
-import lombok.AllArgsConstructor;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.szucsatti.lemkehowson.Matrix.COLUMN_ONE;
 import static com.szucsatti.lemkehowson.Matrix.IDENTITY_2X2;
-import static lombok.AccessLevel.PRIVATE;
 
-@AllArgsConstructor(access = PRIVATE)
 public class Tableux {
 
     private List<Integer> labels = new ArrayList<>();
 
     private Matrix matrix;
+
+    private int pivotRow = 0;
+
+    private int nonPivotRow = 0;
+
+    private static final int FIRST_ROW = 0;
+
+    private static final int SECOND_ROW = 1;
+
+    private Tableux(final List<Integer> labels, final Matrix matrix){
+        this.matrix = matrix;
+        this.labels = labels;
+    }
 
     public static TableuxBuilder builder() {
         return new TableuxBuilder();
@@ -26,6 +35,30 @@ public class Tableux {
 
     public List<Integer> getLabels() {
         return labels;
+    }
+
+    public boolean hasLabel(int label){
+        return labels.contains(label);
+    }
+
+    public void findPivotAndNonPivotRows(final int label){
+        assert labels.contains(label);
+
+        Rational ratioRowOne = getRatioForRow(FIRST_ROW, label);
+        Rational rationRowTwo = getRatioForRow(SECOND_ROW, label);
+
+        if(ratioRowOne.isLessThan(rationRowTwo)){
+            this.pivotRow = FIRST_ROW;
+            this.nonPivotRow = SECOND_ROW;
+        } else {
+            this.pivotRow = SECOND_ROW;
+            this.nonPivotRow = FIRST_ROW;
+        }
+    }
+
+
+    private Rational getRatioForRow(int rowIndex, int label){
+        return matrix.ratio(rowIndex, matrix.getCols() - 1, rowIndex, label);
     }
 
     @Override

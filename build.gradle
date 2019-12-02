@@ -9,10 +9,13 @@ sourceCompatibility = 1.9
 
 repositories {
     jcenter()
+    mavenCentral()
 }
 
 dependencies {
+    compile 'org.jscience:jscience:4.3.1'
     compileOnly 'org.projectlombok:lombok:1.18.10'
+
     annotationProcessor 'org.projectlombok:lombok:1.18.10'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.2'

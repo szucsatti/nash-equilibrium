@@ -7,15 +7,15 @@ import static java.util.Arrays.asList;
 
 public class TableuxBuilderTest {
 
-    private Matrix payoff = new Matrix (new double[][]{
+    private Matrix payoff = new Matrix (new long[][]{
             {4,7},
             {4,2}});
 
-    private Matrix expectedMatrixWithIdentity = new Matrix(new double[][]{
+    private Matrix expectedMatrixWithIdentity = new Matrix(new long[][]{
              {4,7,1,0,1},
              {4,2,0,1,1}});
 
-     private Matrix expectedIdentityWithMatrix = new Matrix(new double[][]{
+     private Matrix expectedIdentityWithMatrix = new Matrix(new long[][]{
              {1,0,4,7,1},
              {0,1,4,2,1}});
 

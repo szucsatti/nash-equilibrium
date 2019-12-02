@@ -4,48 +4,62 @@ import lombok.extern.java.Log;
 
 import java.util.Arrays;
 
+import static com.szucsatti.lemkehowson.Rational.*;
+
+
 @Log
 public class Matrix {
 
     private static final String START_LINE = "|  ";
     private static final String END_LINE = "  |";
     private static final String VALUE_DELIMITER = "  |  ";
-    private double[][] matrix;
+    private Rational[][] matrix;
     private int rows;
     private int cols;
 
-    public static final Matrix IDENTITY_2X2 = new Matrix(new double[][]{
-            {1, 0},
-            {0, 1}});
+    public static final Matrix IDENTITY_2X2 = new Matrix(new Rational[][]{
+            {ONE, ZERO},
+            {ZERO, ONE}});
 
-    public static final Matrix COLUMN_ONE = new Matrix(new double[][]{
-            {1},
-            {1}});
+    public static final Matrix COLUMN_ONE = new Matrix(new Rational[][]{
+            {ONE},
+            {ONE}});
 
-    public Matrix(final double[][] matrix) {
+    public Matrix(final Rational[][] matrix) {
         this.matrix = matrix;
         this.rows = matrix.length;
         this.cols = matrix[0].length;
     }
 
+    public Matrix(final long[][] matrix) {
+        this.rows = matrix.length;
+        this.cols = matrix[0].length;
+        this.matrix = new Rational[this.rows][this.cols];
+        for(int row = 0; row < this.getRows(); row++){
+            for(int col = 0; col < this.getCols(); col++){
+                this.matrix[row][col] = valueOf(matrix[row][col]);
+            }
+        }
+    }
+
     public Matrix(final Matrix other){
         this.rows = other.getRows();
         this.cols = other.getCols();
-        this.matrix = new double[this.getRows()][this.getCols()];
+        this.matrix = new Rational[this.getRows()][this.getCols()];
 
         for(int rowIndex = 0; rowIndex < rows; rowIndex++){
-            double[] row = other.matrix[rowIndex];
+            Rational[] row = other.matrix[rowIndex];
             System.arraycopy(row, 0, this.matrix[rowIndex], 0, row.length);
         }
     }
 
     public Matrix join(final Matrix other){
         assert this.getRows() == other.getRows();
-        double[][] joined = new double[this.getRows()][this.getCols() + other.getCols()];
+        Rational[][] joined = new Rational[this.getRows()][this.getCols() + other.getCols()];
 
         for(int row = 0; row < other.getRows(); row++){
-            double[] otherRow = other.matrix[row];
-            double[] thisRow = this.matrix[row];
+            Rational[] otherRow = other.matrix[row];
+            Rational[] thisRow = this.matrix[row];
             System.arraycopy(thisRow, 0, joined[row], 0, thisRow.length);
             System.arraycopy(otherRow, 0, joined[row], thisRow.length, otherRow.length);
         }
@@ -56,11 +70,11 @@ public class Matrix {
     public Matrix[] split(){
         int halfCol = this.getCols() / 2;
 
-        double [][] firstMatrix = new double[this.getRows()][halfCol];
-        double [][] secondMatrix = new double[this.getRows()][halfCol];
+        Rational [][] firstMatrix = new Rational[this.getRows()][halfCol];
+        Rational [][] secondMatrix = new Rational[this.getRows()][halfCol];
 
         for(int row = 0; row < rows; row++){
-            double[] thisRow = this.matrix[row];
+            Rational[] thisRow = this.matrix[row];
             System.arraycopy(thisRow, 0, firstMatrix[row], 0, halfCol);
             System.arraycopy(thisRow, halfCol, secondMatrix[row], 0, halfCol) ;
         }
@@ -68,33 +82,33 @@ public class Matrix {
         return new Matrix[]{new Matrix(firstMatrix), new Matrix(secondMatrix)};
     }
 
-    public double get(int row, int column) {
+    public Rational get(int row, int column) {
         return matrix[row][column];
     }
 
     public Matrix normalize() {
-        double normalizationConstant = getNormalizationConstant();
-        double[][] normalized = new double[this.getRows()][this.getCols()];
-        if(normalizationConstant > 0D){
+        Rational normalizationConstant = getNormalizationConstant();
+        Rational[][] normalized = new Rational[this.getRows()][this.getCols()];
+        if(normalizationConstant.isGreaterOrEqualThan(ZERO)){
             for(int row = 0; row < rows; row++){
                 for(int col = 0; col < cols; col++){
-                    normalized[row][col] = this.matrix[row][col] + normalizationConstant;
+                    normalized[row][col] = this.matrix[row][col].plus(normalizationConstant);
                 }
             }
         }
         return new Matrix(normalized);
     }
 
-    private double getNormalizationConstant(){
-        double minimum = getMinimumValue();
-        return minimum >= 0D ? 0D : Math.abs(minimum) + 1;
+    private Rational getNormalizationConstant(){
+        Rational minimum = getMinimumValue();
+        return minimum.isGreaterOrEqualThan(ZERO) ? ZERO : minimum.absValue().plus(ONE);
     }
 
-    protected double getMinimumValue() {
-        double minimum = matrix[0][0];
+    protected Rational getMinimumValue() {
+        Rational minimum = matrix[0][0];
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
-                if (matrix[row][col] < minimum) {
+                if (matrix[row][col].isLessThan(minimum)) {
                     minimum = matrix[row][col];
                 }
             }
@@ -127,25 +141,25 @@ public class Matrix {
         return rows;
     }
 
-    public double ratio(int uRow, int uCol, int lRow, int lCol){
-        return matrix[uRow][uCol] / matrix[lRow][lCol];
+    public Rational ratio(int uRow, int uCol, int lRow, int lCol){
+        return matrix[uRow][uCol].divide(matrix[lRow][lCol]);
     }
 
-    public Matrix multiplyRow(final int rowIndex, final double multiplyBy){
-        double[][] multipliedMatrix = this.matrix;
+    public Matrix multiplyRow(final int rowIndex, final Rational multiplyBy){
+        Rational[][] multipliedMatrix = this.matrix;
 
         for(int col = 0; col < getCols(); col++){
-            multipliedMatrix[rowIndex][col] *= multiplyBy;
+            multipliedMatrix[rowIndex][col] = multipliedMatrix[rowIndex][col].times(multiplyBy);
         }
 
         return new Matrix(multipliedMatrix);
     }
 
     public Matrix subtract(final int rowIndex, final int fromIndex){
-        double[][] subtractedMatrix = this.matrix;
+        Rational[][] subtractedMatrix = this.matrix;
 
         for(int col = 0; col < this.getCols(); col++){
-            subtractedMatrix[fromIndex][col] -= subtractedMatrix[rowIndex][col];
+            subtractedMatrix[fromIndex][col] = subtractedMatrix[fromIndex][col].minus(subtractedMatrix[rowIndex][col]);
         }
         return new Matrix(subtractedMatrix);
     }
