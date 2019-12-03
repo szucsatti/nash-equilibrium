@@ -56,6 +56,20 @@ public class Tableux {
         }
     }
 
+    /**
+     * We do only row operations here until the <code>label</code> column will corresponds to a basic variable.
+     *
+     * @param label index of the column that has to become a basic variable (has a single non-zero variable)
+     * @return the new {@link Tableux} after pivoting column <code>label</code>
+     */
+    public Tableux pivot(int label){
+        findPivotAndNonPivotRows(label);
+
+        Matrix pivotedMatrix = matrix.multiplyRow(nonPivotRow, matrix.ratio(pivotRow, label, nonPivotRow, label))
+                .subtract(pivotRow, nonPivotRow);
+
+        return new Tableux(pivotedMatrix.getNoZeroCols(), pivotedMatrix);
+    }
 
     private Rational getRatioForRow(int rowIndex, int label){
         return matrix.ratio(rowIndex, matrix.getCols() - 1, rowIndex, label);
