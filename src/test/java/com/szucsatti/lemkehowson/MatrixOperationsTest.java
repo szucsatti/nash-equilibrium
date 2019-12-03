@@ -3,6 +3,8 @@ package com.szucsatti.lemkehowson;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static com.szucsatti.lemkehowson.Rational.valueOf;
 
 
@@ -17,6 +19,11 @@ class MatrixOperationsTest {
             {4, 5, 6},
             {10, 11, 12},
             {16, -17, 18}});
+
+    private Matrix nonZero = new Matrix(new long[][]{
+            {4, 5, 6, 100, 200},
+            {10, 0, 12, 101, 0},
+            {16, -17, 18, 102, 202}});
 
     private int NORMALIZATION_CONST = 18;
 
@@ -99,6 +106,11 @@ class MatrixOperationsTest {
                 {1, 2, 3},
                 {6, -10, 6},
                 {13, 14, 15}}), actualMatrix);
+    }
+
+    @Test
+    public void givenMatrix_OnNoZeroCols_findNonZeroCols(){
+        Assertions.assertEquals(Arrays.asList(0,2,3), nonZero.getNoZeroCols());
     }
 
 }

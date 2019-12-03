@@ -2,7 +2,9 @@ package com.szucsatti.lemkehowson;
 
 import lombok.extern.java.Log;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static com.szucsatti.lemkehowson.Rational.*;
 
@@ -162,6 +164,23 @@ public class Matrix {
             subtractedMatrix[fromIndex][col] = subtractedMatrix[fromIndex][col].minus(subtractedMatrix[rowIndex][col]);
         }
         return new Matrix(subtractedMatrix);
+    }
+
+    public List<Integer> getNoZeroCols(){
+        List<Integer> nonZeroCols = new ArrayList<>();
+        for(int col = 0; col < getCols(); col++){
+            boolean nonZero = true;
+            for(int row = 0; row < getRows(); row++){
+                if(Rational.ZERO.equals(matrix[row][col])){
+                    nonZero = false;
+                    break;
+                }
+            }
+            if(nonZero){
+                nonZeroCols.add(col);
+            }
+        }
+        return nonZeroCols;
     }
 
     @Override
