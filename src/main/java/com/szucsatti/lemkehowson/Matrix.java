@@ -168,7 +168,7 @@ public class Matrix {
 
     public List<Integer> getNoZeroCols(){
         List<Integer> nonZeroCols = new ArrayList<>();
-        for(int col = 0; col < getCols(); col++){
+        for(int col = 0; col < getCols() - 1 ; col++){
             boolean nonZero = true;
             for(int row = 0; row < getRows(); row++){
                 if(Rational.ZERO.equals(matrix[row][col])){
