@@ -113,4 +113,15 @@ class MatrixOperationsTest {
         Assertions.assertEquals(Arrays.asList(0,2,3), nonZero.getNoZeroCols());
     }
 
+    @Test
+    public void givenMatrix_OnSwitchRowsWithCols_doSwitching(){
+        Matrix switched = xMatrix.switchRowsWithCols();
+
+        Assertions.assertEquals(new Matrix(new long[][]{
+                {1, 7, 13},
+                {2, -8, 14},
+                {3, 9, 15}}), switched);
+
+    }
+
 }

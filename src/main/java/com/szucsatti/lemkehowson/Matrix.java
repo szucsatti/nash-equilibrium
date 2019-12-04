@@ -183,6 +183,16 @@ public class Matrix {
         return nonZeroCols;
     }
 
+    public Matrix switchRowsWithCols(){
+        Rational[][] result = new Rational[this.getRows()][this.getCols()];
+        for(int row = 0; row < this.getRows(); row++){
+            for(int col = 0; col < this.getCols(); col++){
+                result[col][row] = this.get(row, col);
+            }
+        }
+        return new Matrix(result);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
