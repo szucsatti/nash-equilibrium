@@ -122,7 +122,7 @@ public class Matrix {
         for (int row = 0; row < rows; row++) {
             System.out.print(START_LINE);
             for (int col = 0; col < cols; col++) {
-                System.out.print(matrix[row][col]);
+                System.out.print(matrix[row][col].toText());
                 if (col != cols - 1) {
                     System.out.print(VALUE_DELIMITER);
                 }
