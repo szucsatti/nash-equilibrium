@@ -45,11 +45,11 @@ public class TableuxContainer {
         return Optional.empty();
     }
 
-    private Tableux rowPlayer(){
+    public Tableux rowPlayer(){
         return this.container[ROW_PLAYER];
     }
 
-    private Tableux columnPlayer(){
+    public Tableux columnPlayer(){
         return this.container[COLUMN_PLAYER];
     }
 
