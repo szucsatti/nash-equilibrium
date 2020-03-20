@@ -76,6 +76,20 @@ class Matrix(private val matrix: MatrixOfRationals) {
     /* Operations with other matrices                                       */
     /* ==================================================================== */
 
+    fun join(other: Matrix) : Matrix {
+        assert(this.rows == other.rows)
+        val result = init(this.rows, this.cols + other.cols)
+
+        for (row in 0 until other.rows){
+            val otherRow = other.matrix[row]
+            val thisRow = this.matrix[row]
+            thisRow.copyInto(result[row])
+            otherRow.copyInto(result[row], destinationOffset = thisRow.size)
+        }
+
+        return Matrix(result)
+    }
+
 
     companion object {
         private const val START_LINE = "|  "
