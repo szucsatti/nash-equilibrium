@@ -16,12 +16,12 @@ class Matrix(private val matrix: MatrixOfRationals) {
     /* ==================================================================== */
     /* Operations on this matrix                                            */
     /* ==================================================================== */
+
     fun copy(): Matrix {
         var result = init(this.rows, this.cols)
-        for (rowIndex in 0 until this.rows) {
-            for (colIndex in 0 until this.cols) {
-                result[rowIndex][colIndex] = this.matrix[rowIndex][colIndex]
-            }
+
+        this.matrix.forEachIndexed {
+            index: Int, row: Array<Rational> -> row.copyInto(result[index])
         }
 
         return Matrix(result)
