@@ -1,6 +1,9 @@
 package com.szucsatti.lemkehowsonkt
 
 import org.jscience.mathematics.number.Rational
+import org.jscience.mathematics.number.Rational.ONE
+import org.jscience.mathematics.number.Rational.ZERO
+
 
 internal typealias MatrixOfRationals = Array<Array<Rational>>
 internal typealias MatrixOfAny = Array<Array<Any>>
@@ -25,7 +28,7 @@ class Matrix(private val matrix: MatrixOfRationals) {
     /* ==================================================================== */
 
     fun copy(): Matrix {
-        var result = init(this.rows, this.cols)
+        var result = init(rows, cols)
 
         this.matrix.forEachIndexed {index, row -> row.copyInto(result[index])}
 
@@ -53,6 +56,31 @@ class Matrix(private val matrix: MatrixOfRationals) {
             }
         }
         println()
+    }
+
+    fun normalize(): Matrix {
+        val normalizationConstant: Rational = normalizationConstant()
+        val normalized = init(rows, cols)
+        if (normalizationConstant.isGreaterOrEqualThan(ZERO)) {
+
+            this.matrix.forEachIndexed{ i, row ->
+                run {
+                    row.forEachIndexed { j, _ -> normalized[i][j] = matrix[i][j].plus(normalizationConstant)}
+                }
+            }
+//
+//            for (row in 0 until rows) {
+//                for (col in 0 until cols) {
+//                    normalized[row][col] = matrix[row][col].plus(normalizationConstant)
+//                }
+//            }
+        }
+        return Matrix(normalized)
+    }
+
+    private fun normalizationConstant(): Rational {
+        val min = this.min()
+        return if (min.isGreaterOrEqualThan(ZERO)) ZERO else min.abs().plus(ONE)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -92,8 +120,8 @@ class Matrix(private val matrix: MatrixOfRationals) {
     fun split(): Array<Matrix> {
         val halfCol = this.cols / 2
 
-        val firstMatrix = init(this.rows, halfCol) as MatrixOfRationals
-        val secondMatrix = init(this.rows, halfCol) as MatrixOfRationals
+        val firstMatrix = init(this.rows, halfCol)
+        val secondMatrix = init(this.rows, halfCol)
 
         this.matrix.forEachIndexed{ index, row->
             run {
@@ -112,14 +140,14 @@ class Matrix(private val matrix: MatrixOfRationals) {
         private const val VALUE_DELIMITER = "  |  "
 
         val IDENTITY_2X2 = Matrix(arrayOf(
-                arrayOf(Rational.ONE, Rational.ZERO),
-                arrayOf(Rational.ONE, Rational.ZERO)))
+                arrayOf(ONE, ZERO),
+                arrayOf(ONE, ZERO)))
         val COLUMN_ONE = Matrix(arrayOf(
-                arrayOf(Rational.ONE),
-                arrayOf(Rational.ONE)
+                arrayOf(ONE),
+                arrayOf(ONE)
         ))
 
-        private fun init(rows: Int, cols: Int) = Array(rows) { Array<Rational>(cols) { Rational.ONE } }
+        private fun init(rows: Int, cols: Int) = Array(rows) { Array<Rational>(cols) { ONE } }
 
         fun build(vararg values: Array<Any>): Matrix {
             @Suppress("UNCHECKED_CAST")
