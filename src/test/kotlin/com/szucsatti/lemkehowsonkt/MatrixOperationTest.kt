@@ -29,25 +29,25 @@ class MatrixOperationTest {
             arrayOf(13 + normalisationConst, 14 + normalisationConst, 15 + normalisationConst, 16 + normalisationConst, -17 + normalisationConst, 18 + normalisationConst))
 
     @Test
-    fun givenMatrixOnMinimumValueShouldReturnMinimumValue(){
+    fun checkMinimum(){
         assertEquals(valueOf(-8), xMatrix.min())
         assertEquals(valueOf(-17), yMatrix.min())
     }
 
     @Test
-    fun givenMatrixOnCopyShouldReturnNewIdenticalMatrix() {
+    fun checkCopy() {
         val copy = xMatrix.copy()
         assertEquals(xMatrix, copy)
     }
 
     @Test
-    fun givenMatricesOnJoinReturnNewJoinedMatrix(){
+    fun checkJoin(){
         val joinedMatrix = xMatrix.join(yMatrix)
         assertEquals(xyJoined, joinedMatrix)
     }
 
     @Test
-    fun givenJoinedMatricesOnSplitReturnOriginalMatrices(){
+    fun checkSplit(){
         val splitMatrix = xyJoined.split()
 
         assertEquals(xMatrix, splitMatrix[0])
