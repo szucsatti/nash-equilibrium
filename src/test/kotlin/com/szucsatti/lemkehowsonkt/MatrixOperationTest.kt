@@ -6,12 +6,12 @@ import kotlin.test.assertEquals
 
 class MatrixOperationTest {
 
-    private val xMatrix = MatrixOperation.build(
+    private val xMatrix = Matrix.build(
             arrayOf(1, 2, 3),
             arrayOf(7, -8, 9),
             arrayOf(13, 14, 15))
 
-    private val yMatrix = MatrixOperation.build(
+    private val yMatrix = Matrix.build(
             arrayOf(4, 5, 6),
             arrayOf(10, 11, 12),
             arrayOf(16, -17, 18))

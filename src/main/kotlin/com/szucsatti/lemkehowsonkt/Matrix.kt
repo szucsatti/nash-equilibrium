@@ -4,7 +4,7 @@ import org.jscience.mathematics.number.Rational
 
 typealias TwoDimensionalArray<Rational> = Array<Array<Rational>>
 
-class MatrixOperation(private val matrix: TwoDimensionalArray<Rational>) {
+class Matrix(private val matrix: TwoDimensionalArray<Rational>) {
 
     private val rows: Int = matrix.size
     private val cols: Int = matrix[0].size
@@ -12,7 +12,7 @@ class MatrixOperation(private val matrix: TwoDimensionalArray<Rational>) {
     /* ==================================================================== */
     /* Operations on this matrix                                            */
     /* ==================================================================== */
-    fun copy() : MatrixOperation {
+    fun copy() : Matrix {
         var copiedElement : TwoDimensionalArray<Rational> = Array(this.rows){Array<Rational>(this.cols){ Rational.ONE} }
         for (rowIndex in 0 until this.rows) {
             for (colIndex in 0 until this.cols){
@@ -20,7 +20,7 @@ class MatrixOperation(private val matrix: TwoDimensionalArray<Rational>) {
             }
         }
 
-        return MatrixOperation(copiedElement)
+        return Matrix(copiedElement)
     }
 
     fun getMinimumValue(): Rational? {
@@ -59,7 +59,7 @@ class MatrixOperation(private val matrix: TwoDimensionalArray<Rational>) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
-        val typedOther = other as MatrixOperation
+        val typedOther = other as Matrix
         if (rows != typedOther.rows) return false
 
         return if (cols != typedOther.cols) false else this.matrix.contentDeepEquals(typedOther.matrix)
@@ -77,23 +77,23 @@ class MatrixOperation(private val matrix: TwoDimensionalArray<Rational>) {
         private const val END_LINE = "  |"
         private const val VALUE_DELIMITER = "  |  "
 
-        val IDENTITY_2X2 = MatrixOperation(arrayOf(
+        val IDENTITY_2X2 = Matrix(arrayOf(
                 arrayOf(Rational.ONE, Rational.ZERO),
                 arrayOf(Rational.ONE, Rational.ZERO)))
-        val COLUMN_ONE = MatrixOperation(arrayOf(
+        val COLUMN_ONE = Matrix(arrayOf(
                 arrayOf(Rational.ONE),
                 arrayOf(Rational.ONE)
         ))
 
 
-        fun build(vararg values: Array<Any>): MatrixOperation {
+        fun build(vararg values: Array<Any>): Matrix {
             var convertedElement: TwoDimensionalArray<Rational> = Array(values.size) { Array<Rational>(values[0].size) { Rational.ONE } }
             for (row in values.indices) {
                 for (col in values[0].indices) {
                     convertedElement[row][col] = valueOf(values[row][col])
                 }
             }
-            return MatrixOperation(convertedElement)
+            return Matrix(convertedElement)
         }
     }
 }
