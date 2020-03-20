@@ -2,9 +2,13 @@ package com.szucsatti.lemkehowsonkt
 
 import org.jscience.mathematics.number.Rational
 
-typealias TwoDimensionalArray<Rational> = Array<Array<Rational>>
+internal typealias MatrixOfRationals = Array<Array<Rational>>
+internal typealias MatrixOfAny = Array<Array<Any>>
 
-class Matrix(private val matrix: TwoDimensionalArray<Rational>) {
+fun MatrixOfAny.rows() = this.size
+fun MatrixOfAny.cols() = this[0].size
+
+class Matrix(private val matrix: MatrixOfRationals) {
 
     private val rows: Int = matrix.size
     private val cols: Int = matrix[0].size
@@ -12,15 +16,15 @@ class Matrix(private val matrix: TwoDimensionalArray<Rational>) {
     /* ==================================================================== */
     /* Operations on this matrix                                            */
     /* ==================================================================== */
-    fun copy() : Matrix {
-        var copiedElement : TwoDimensionalArray<Rational> = Array(this.rows){Array<Rational>(this.cols){ Rational.ONE} }
+    fun copy(): Matrix {
+        var result = init(this.rows, this.cols)
         for (rowIndex in 0 until this.rows) {
-            for (colIndex in 0 until this.cols){
-                copiedElement[rowIndex][colIndex] = this.matrix[rowIndex][colIndex]
+            for (colIndex in 0 until this.cols) {
+                result[rowIndex][colIndex] = this.matrix[rowIndex][colIndex]
             }
         }
 
-        return Matrix(copiedElement)
+        return Matrix(result)
     }
 
     fun getMinimumValue(): Rational? {
@@ -52,10 +56,6 @@ class Matrix(private val matrix: TwoDimensionalArray<Rational>) {
         println()
     }
 
-    /* ==================================================================== */
-    /* Operations with other matrices                                       */
-    /* ==================================================================== */
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
@@ -72,6 +72,11 @@ class Matrix(private val matrix: TwoDimensionalArray<Rational>) {
         return result
     }
 
+    /* ==================================================================== */
+    /* Operations with other matrices                                       */
+    /* ==================================================================== */
+
+
     companion object {
         private const val START_LINE = "|  "
         private const val END_LINE = "  |"
@@ -85,15 +90,21 @@ class Matrix(private val matrix: TwoDimensionalArray<Rational>) {
                 arrayOf(Rational.ONE)
         ))
 
+        private fun init(rows: Int, cols: Int) = Array(rows) { Array<Rational>(cols) { Rational.ONE } }
 
         fun build(vararg values: Array<Any>): Matrix {
-            var convertedElement: TwoDimensionalArray<Rational> = Array(values.size) { Array<Rational>(values[0].size) { Rational.ONE } }
+            @Suppress("UNCHECKED_CAST")
+            return buildFromMatrixOfAny(values as MatrixOfAny)
+        }
+
+        private fun buildFromMatrixOfAny(values: MatrixOfAny): Matrix {
+            var result = init(values.rows(), values.cols())
             for (row in values.indices) {
                 for (col in values[0].indices) {
-                    convertedElement[row][col] = valueOf(values[row][col])
+                    result[row][col] = valueOf(values[row][col])
                 }
             }
-            return Matrix(convertedElement)
+            return Matrix(result)
         }
     }
 }
