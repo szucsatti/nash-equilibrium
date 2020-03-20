@@ -39,4 +39,12 @@ class MatrixOperationTest {
         assertEquals(xyJoined, joinedMatrix)
     }
 
+    @Test
+    fun givenJoinedMatricesOnSplitReturnOriginalMatrices(){
+        val splitMatrix = xyJoined.split()
+
+        assertEquals(xMatrix, splitMatrix[0])
+        assertEquals(yMatrix, splitMatrix[1])
+    }
+
 }

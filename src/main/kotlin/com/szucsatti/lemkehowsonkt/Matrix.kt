@@ -89,6 +89,22 @@ class Matrix(private val matrix: MatrixOfRationals) {
         return Matrix(result)
     }
 
+    fun split(): Array<Matrix> {
+        val halfCol = this.cols / 2
+
+        val firstMatrix = init(this.rows, halfCol) as MatrixOfRationals
+        val secondMatrix = init(this.rows, halfCol) as MatrixOfRationals
+
+        this.matrix.forEachIndexed{ index, row->
+            run {
+                row.copyInto(firstMatrix[index], endIndex = halfCol )
+                row.copyInto(secondMatrix[index], startIndex = halfCol)
+            }
+        }
+
+        return arrayOf(Matrix(firstMatrix), Matrix(secondMatrix))
+    }
+
 
     companion object {
         private const val START_LINE = "|  "
