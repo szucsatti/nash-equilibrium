@@ -23,8 +23,8 @@ class MatrixOperationTest {
 
     @Test
     fun givenMatrixOnMinimumValueShouldReturnMinimumValue(){
-        assertEquals(valueOf(-8), xMatrix.getMinimumValue())
-        assertEquals(valueOf(-17), yMatrix.getMinimumValue())
+        assertEquals(valueOf(-8), xMatrix.min())
+        assertEquals(valueOf(-17), yMatrix.min())
     }
 
     @Test
@@ -34,7 +34,7 @@ class MatrixOperationTest {
     }
 
     @Test
-    fun givenMatricesOnJoinReturnJoinedBiMatrix(){
+    fun givenMatricesOnJoinReturnNewJoinedMatrix(){
         val joinedMatrix = xMatrix.join(yMatrix)
         assertEquals(xyJoined, joinedMatrix)
     }

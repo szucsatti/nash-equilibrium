@@ -8,10 +8,17 @@ internal typealias MatrixOfAny = Array<Array<Any>>
 fun MatrixOfAny.rows() = this.size
 fun MatrixOfAny.cols() = this[0].size
 
+fun MatrixOfRationals.rows() = this.size
+fun MatrixOfRationals.cols() = this[0].size
+
+fun Array<Rational>.min() : Rational {
+    return this.reduce{ left: Rational, right: Rational -> if(left.isLessThan(right)) left else right}
+}
+
 class Matrix(private val matrix: MatrixOfRationals) {
 
-    private val rows: Int = matrix.size
-    private val cols: Int = matrix[0].size
+    private val rows: Int = matrix.rows()
+    private val cols: Int = matrix.cols()
 
     /* ==================================================================== */
     /* Operations on this matrix                                            */
@@ -25,16 +32,10 @@ class Matrix(private val matrix: MatrixOfRationals) {
         return Matrix(result)
     }
 
-    fun getMinimumValue(): Rational? {
-        var minimum = matrix[0][0]
-        for (row in 0 until rows) {
-            for (col in 0 until cols) {
-                if (matrix[row][col].isLessThan(minimum)) {
-                    minimum = matrix[row][col]
-                }
-            }
-        }
-        return minimum
+    fun min(): Rational {
+        return this.matrix.asSequence()
+                .flatMap { sequenceOf(it.min()) }
+                .reduce { left, right -> if(left.isLessThan(right)) left else right }
     }
 
     fun print() {
