@@ -1,2 +1,6 @@
+# Ignore Gradle and class files
 .gradle/
 build/
+
+# Ignore all IntelliJ stuff
+.idea
