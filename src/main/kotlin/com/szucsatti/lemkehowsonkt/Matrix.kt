@@ -133,6 +133,13 @@ class Matrix(private val matrix: MatrixOfRationals) {
         return arrayOf(Matrix(firstMatrix), Matrix(secondMatrix))
     }
 
+    fun multiplyRow(rowIndex: Int, multiplyBy: Rational): Matrix {
+        val multipliedMatrix = this.copy().matrix
+        for (col in 0 until cols) {
+            multipliedMatrix[rowIndex][col] = multipliedMatrix[rowIndex][col].times(multiplyBy)
+        }
+        return Matrix(multipliedMatrix)
+    }
 
     companion object {
         private const val START_LINE = "|  "

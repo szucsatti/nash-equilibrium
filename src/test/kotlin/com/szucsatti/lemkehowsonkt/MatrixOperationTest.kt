@@ -1,5 +1,6 @@
 package com.szucsatti.lemkehowsonkt
 
+import org.jscience.mathematics.number.Rational.valueOf
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
@@ -59,6 +60,26 @@ class MatrixOperationTest {
         val normalized = xyJoined.normalize()
 
         assertEquals(expectedNormalized, normalized)
+    }
+
+    @Test
+    fun checkMultiplicationWithPositiveNumber(){
+        val multipliedMatrix = xMatrix.multiplyRow(0, valueOf(5))
+
+        assertEquals(Matrix.build(
+                arrayOf(5, 10, 15),
+                arrayOf(7, -8, 9),
+                arrayOf(13, 14, 15)), multipliedMatrix)
+    }
+
+    @Test
+    fun checkMultiplicationWithNegativeNumber(){
+        val multipliedRow = xMatrix.multiplyRow(1, valueOf(-1, 2))
+
+        assertEquals(Matrix.build(
+                arrayOf(valueOf(1), valueOf(2), valueOf(3)),
+                arrayOf(valueOf(-7,2), valueOf(4), valueOf(-9,2)),
+                arrayOf(valueOf(13), valueOf(14), valueOf(15))), multipliedRow)
     }
 
 }
