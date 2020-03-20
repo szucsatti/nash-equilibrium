@@ -20,9 +20,7 @@ class Matrix(private val matrix: MatrixOfRationals) {
     fun copy(): Matrix {
         var result = init(this.rows, this.cols)
 
-        this.matrix.forEachIndexed {
-            index: Int, row: Array<Rational> -> row.copyInto(result[index])
-        }
+        this.matrix.forEachIndexed {index, row -> row.copyInto(result[index])}
 
         return Matrix(result)
     }
@@ -80,11 +78,11 @@ class Matrix(private val matrix: MatrixOfRationals) {
         assert(this.rows == other.rows)
         val result = init(this.rows, this.cols + other.cols)
 
-        for (row in 0 until other.rows){
-            val otherRow = other.matrix[row]
-            val thisRow = this.matrix[row]
-            thisRow.copyInto(result[row])
-            otherRow.copyInto(result[row], destinationOffset = thisRow.size)
+        this.matrix.forEachIndexed{index, row ->
+            run {
+                row.copyInto(result[index])
+                other.matrix[index].copyInto(result[index], destinationOffset = row.size)
+            }
         }
 
         return Matrix(result)
