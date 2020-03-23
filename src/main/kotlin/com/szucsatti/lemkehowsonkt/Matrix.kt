@@ -41,23 +41,6 @@ class Matrix(private val matrix: MatrixOfRationals) {
                 .reduce { left, right -> if (left.isLessThan(right)) left else right }
     }
 
-    fun print() {
-        for (row in 0 until rows) {
-            print(START_LINE)
-            for (col in 0 until cols) {
-                print(matrix[row][col].toText())
-                if (col != cols - 1) {
-                    print(VALUE_DELIMITER)
-                }
-            }
-            print(END_LINE)
-            if (row != rows - 1) {
-                println()
-            }
-        }
-        println()
-    }
-
     fun normalize(): Matrix {
         val normalizationConstant: Rational = normalizationConstant()
         val normalized = init(rows, cols)
@@ -105,6 +88,27 @@ class Matrix(private val matrix: MatrixOfRationals) {
             }
         }
         return Matrix(result)
+    }
+
+    fun ratio(uRow: Int, uCol: Int, lRow: Int, lCol: Int): Rational? {
+        return matrix[uRow][uCol].divide(matrix[lRow][lCol])
+    }
+
+    fun print() {
+        for (row in 0 until rows) {
+            print(START_LINE)
+            for (col in 0 until cols) {
+                print(matrix[row][col].toText())
+                if (col != cols - 1) {
+                    print(VALUE_DELIMITER)
+                }
+            }
+            print(END_LINE)
+            if (row != rows - 1) {
+                println()
+            }
+        }
+        println()
     }
 
     override fun equals(other: Any?): Boolean {

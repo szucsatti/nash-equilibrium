@@ -113,7 +113,12 @@ class MatrixOperationTest {
 
     }
 
-
+    @Test
+    fun checkRatio(){
+        assertEquals(xMatrix.ratio(1,2,0,2), valueOf(3))
+        assertEquals(xMatrix.ratio(2, 1, 1, 1), valueOf(-14, 8));
+        assertEquals(xMatrix.ratio(2, 2, 1, 2), valueOf(15, 9));
+    }
 
 
 }
