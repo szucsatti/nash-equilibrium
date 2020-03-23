@@ -62,18 +62,11 @@ class Matrix(private val matrix: MatrixOfRationals) {
         val normalizationConstant: Rational = normalizationConstant()
         val normalized = init(rows, cols)
         if (normalizationConstant.isGreaterOrEqualThan(ZERO)) {
-
             this.matrix.forEachIndexed{ i, row ->
                 run {
                     row.forEachIndexed { j, _ -> normalized[i][j] = matrix[i][j].plus(normalizationConstant)}
                 }
             }
-//
-//            for (row in 0 until rows) {
-//                for (col in 0 until cols) {
-//                    normalized[row][col] = matrix[row][col].plus(normalizationConstant)
-//                }
-//            }
         }
         return Matrix(normalized)
     }
@@ -135,9 +128,11 @@ class Matrix(private val matrix: MatrixOfRationals) {
 
     fun multiplyRow(rowIndex: Int, multiplyBy: Rational): Matrix {
         val multipliedMatrix = this.copy().matrix
-        for (col in 0 until cols) {
-            multipliedMatrix[rowIndex][col] = multipliedMatrix[rowIndex][col].times(multiplyBy)
-        }
+
+        multipliedMatrix[rowIndex] = multipliedMatrix[rowIndex]
+                .map { it.times(multiplyBy) }
+                .toTypedArray()
+
         return Matrix(multipliedMatrix)
     }
 

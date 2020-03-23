@@ -63,7 +63,7 @@ class MatrixOperationTest {
     }
 
     @Test
-    fun checkMultiplicationWithPositiveNumber(){
+    fun checkRowMultiplicationWithPositiveNumber(){
         val multipliedMatrix = xMatrix.multiplyRow(0, valueOf(5))
 
         assertEquals(Matrix.build(
@@ -73,7 +73,7 @@ class MatrixOperationTest {
     }
 
     @Test
-    fun checkMultiplicationWithNegativeNumber(){
+    fun checkRowMultiplicationWithNegativeNumber(){
         val multipliedRow = xMatrix.multiplyRow(1, valueOf(-1, 2))
 
         assertEquals(Matrix.build(
