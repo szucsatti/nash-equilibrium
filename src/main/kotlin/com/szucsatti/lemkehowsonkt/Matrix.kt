@@ -136,6 +136,16 @@ class Matrix(private val matrix: MatrixOfRationals) {
         return Matrix(multipliedMatrix)
     }
 
+    fun subtract(rowIndex: Int, fromIndex: Int): Matrix {
+        val subtractedMatrix = this.copy().matrix
+
+        subtractedMatrix[fromIndex] = subtractedMatrix[fromIndex].mapIndexed { index, rational ->
+            rational.minus(subtractedMatrix[rowIndex][index])
+        }.toTypedArray()
+
+        return Matrix(subtractedMatrix)
+    }
+
     companion object {
         private const val START_LINE = "|  "
         private const val END_LINE = "  |"

@@ -30,7 +30,7 @@ class MatrixOperationTest {
             arrayOf(13 + normalisationConst, 14 + normalisationConst, 15 + normalisationConst, 16 + normalisationConst, -17 + normalisationConst, 18 + normalisationConst))
 
     @Test
-    fun checkMinimum(){
+    fun checkMinimum() {
         assertEquals(valueOf(-8), xMatrix.min())
         assertEquals(valueOf(-17), yMatrix.min())
     }
@@ -42,13 +42,13 @@ class MatrixOperationTest {
     }
 
     @Test
-    fun checkJoin(){
+    fun checkJoin() {
         val joinedMatrix = xMatrix.join(yMatrix)
         assertEquals(xyJoined, joinedMatrix)
     }
 
     @Test
-    fun checkSplit(){
+    fun checkSplit() {
         val splitMatrix = xyJoined.split()
 
         assertEquals(xMatrix, splitMatrix[0])
@@ -56,14 +56,14 @@ class MatrixOperationTest {
     }
 
     @Test
-    fun checkNormalisation(){
+    fun checkNormalisation() {
         val normalized = xyJoined.normalize()
 
         assertEquals(expectedNormalized, normalized)
     }
 
     @Test
-    fun checkRowMultiplicationWithPositiveNumber(){
+    fun checkRowMultiplicationWithPositiveNumber() {
         val multipliedMatrix = xMatrix.multiplyRow(0, valueOf(5))
 
         assertEquals(Matrix.build(
@@ -73,13 +73,24 @@ class MatrixOperationTest {
     }
 
     @Test
-    fun checkRowMultiplicationWithNegativeNumber(){
+    fun checkRowMultiplicationWithNegativeNumber() {
         val multipliedRow = xMatrix.multiplyRow(1, valueOf(-1, 2))
 
         assertEquals(Matrix.build(
                 arrayOf(valueOf(1), valueOf(2), valueOf(3)),
-                arrayOf(valueOf(-7,2), valueOf(4), valueOf(-9,2)),
+                arrayOf(valueOf(-7, 2), valueOf(4), valueOf(-9, 2)),
                 arrayOf(valueOf(13), valueOf(14), valueOf(15))), multipliedRow)
     }
+
+    @Test
+    fun checkSubtraction() {
+        val subtractedMatrix = xMatrix.subtract(0, 1)
+
+        assertEquals(Matrix.build(
+                arrayOf(1, 2, 3),
+                arrayOf(6, -10, 6),
+                arrayOf(13, 14, 15)), subtractedMatrix)
+    }
+
 
 }
