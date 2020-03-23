@@ -14,8 +14,8 @@ fun MatrixOfAny.cols() = this[0].size
 fun MatrixOfRationals.rows() = this.size
 fun MatrixOfRationals.cols() = this[0].size
 
-fun Array<Rational>.min() : Rational {
-    return this.reduce{ left: Rational, right: Rational -> if(left.isLessThan(right)) left else right}
+fun Array<Rational>.min(): Rational {
+    return this.reduce { left: Rational, right: Rational -> if (left.isLessThan(right)) left else right }
 }
 
 class Matrix(private val matrix: MatrixOfRationals) {
@@ -30,7 +30,7 @@ class Matrix(private val matrix: MatrixOfRationals) {
     fun copy(): Matrix {
         var result = init(rows, cols)
 
-        this.matrix.forEachIndexed {index, row -> row.copyInto(result[index])}
+        this.matrix.forEachIndexed { index, row -> row.copyInto(result[index]) }
 
         return Matrix(result)
     }
@@ -38,7 +38,7 @@ class Matrix(private val matrix: MatrixOfRationals) {
     fun min(): Rational {
         return this.matrix.asSequence()
                 .flatMap { sequenceOf(it.min()) }
-                .reduce { left, right -> if(left.isLessThan(right)) left else right }
+                .reduce { left, right -> if (left.isLessThan(right)) left else right }
     }
 
     fun print() {
@@ -62,9 +62,9 @@ class Matrix(private val matrix: MatrixOfRationals) {
         val normalizationConstant: Rational = normalizationConstant()
         val normalized = init(rows, cols)
         if (normalizationConstant.isGreaterOrEqualThan(ZERO)) {
-            this.matrix.forEachIndexed{ i, row ->
+            this.matrix.forEachIndexed { i, row ->
                 run {
-                    row.forEachIndexed { j, _ -> normalized[i][j] = matrix[i][j].plus(normalizationConstant)}
+                    row.forEachIndexed { j, _ -> normalized[i][j] = matrix[i][j].plus(normalizationConstant) }
                 }
             }
         }
@@ -74,6 +74,27 @@ class Matrix(private val matrix: MatrixOfRationals) {
     private fun normalizationConstant(): Rational {
         val min = this.min()
         return if (min.isGreaterOrEqualThan(ZERO)) ZERO else min.abs().plus(ONE)
+    }
+
+    fun subtract(rowIndex: Int, fromIndex: Int): Matrix {
+        val subtractedMatrix = this.copy().matrix
+
+        subtractedMatrix[fromIndex] = subtractedMatrix[fromIndex].mapIndexed { index, rational ->
+            rational.minus(subtractedMatrix[rowIndex][index])
+        }.toTypedArray()
+
+        return Matrix(subtractedMatrix)
+    }
+
+    fun nonZeroCols(): List<Int> {
+        val nonZeroCols= mutableListOf<Int>()
+
+        for(col in 0 until cols ) {
+            if(matrix.map {it[col]}.contains(ZERO).not())
+                nonZeroCols.add(col)
+        }
+
+        return nonZeroCols
     }
 
     override fun equals(other: Any?): Boolean {
@@ -96,11 +117,11 @@ class Matrix(private val matrix: MatrixOfRationals) {
     /* Operations with other matrices                                       */
     /* ==================================================================== */
 
-    fun join(other: Matrix) : Matrix {
+    fun join(other: Matrix): Matrix {
         assert(this.rows == other.rows)
         val result = init(this.rows, this.cols + other.cols)
 
-        this.matrix.forEachIndexed{index, row ->
+        this.matrix.forEachIndexed { index, row ->
             run {
                 row.copyInto(result[index])
                 other.matrix[index].copyInto(result[index], destinationOffset = row.size)
@@ -116,9 +137,9 @@ class Matrix(private val matrix: MatrixOfRationals) {
         val firstMatrix = init(this.rows, halfCol)
         val secondMatrix = init(this.rows, halfCol)
 
-        this.matrix.forEachIndexed{ index, row->
+        this.matrix.forEachIndexed { index, row ->
             run {
-                row.copyInto(firstMatrix[index], endIndex = halfCol )
+                row.copyInto(firstMatrix[index], endIndex = halfCol)
                 row.copyInto(secondMatrix[index], startIndex = halfCol)
             }
         }
@@ -134,16 +155,6 @@ class Matrix(private val matrix: MatrixOfRationals) {
                 .toTypedArray()
 
         return Matrix(multipliedMatrix)
-    }
-
-    fun subtract(rowIndex: Int, fromIndex: Int): Matrix {
-        val subtractedMatrix = this.copy().matrix
-
-        subtractedMatrix[fromIndex] = subtractedMatrix[fromIndex].mapIndexed { index, rational ->
-            rational.minus(subtractedMatrix[rowIndex][index])
-        }.toTypedArray()
-
-        return Matrix(subtractedMatrix)
     }
 
     companion object {

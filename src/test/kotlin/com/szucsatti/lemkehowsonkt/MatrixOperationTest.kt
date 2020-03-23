@@ -22,6 +22,11 @@ class MatrixOperationTest {
             arrayOf(7, -8, 9, 10, 11, 12),
             arrayOf(13, 14, 15, 16, -17, 18))
 
+    private val nonZero = Matrix.build(
+            arrayOf(4, 5, 6, 100, 200),
+            arrayOf(10, 0, 12, 101, 0),
+            arrayOf(16, -17, 18, 102, 202))
+
     private val normalisationConst = 18L
 
     private val expectedNormalized = Matrix.build(
@@ -91,6 +96,12 @@ class MatrixOperationTest {
                 arrayOf(6, -10, 6),
                 arrayOf(13, 14, 15)), subtractedMatrix)
     }
+
+    @Test
+    fun checkNonZeroColsOperation(){
+        assertEquals(listOf(0,2,3), nonZero.nonZeroCols())
+    }
+
 
 
 }
