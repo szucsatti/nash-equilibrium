@@ -97,6 +97,16 @@ class Matrix(private val matrix: MatrixOfRationals) {
         return nonZeroCols
     }
 
+    fun switchRowsWithCols(): Matrix {
+        val result = init(rows, cols)
+        for (row in 0 until rows) {
+            for (col in 0 until cols) {
+                result[col][row] = matrix[row][col]
+            }
+        }
+        return Matrix(result)
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false

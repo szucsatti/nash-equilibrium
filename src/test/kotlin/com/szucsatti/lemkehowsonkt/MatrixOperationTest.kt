@@ -102,6 +102,18 @@ class MatrixOperationTest {
         assertEquals(listOf(0,2,3), nonZero.nonZeroCols())
     }
 
+    @Test
+    fun checkRowsWithColsSwitch(){
+        val switchedMatrix = xMatrix.switchRowsWithCols()
+
+        assertEquals(Matrix.build(
+            arrayOf(1, 7, 13),
+            arrayOf(2, -8, 14),
+            arrayOf(3, 9, 15)), switchedMatrix)
+
+    }
+
+
 
 
 }
